@@ -60,6 +60,19 @@ services:
     restart: always
     networks:
       - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.librenms.entrypoints=http"
+      - "traefik.http.routers.librenms.rule=Host(`librenms.hbnet.co.za`)"
+      - "traefik.http.middlewares.librenms-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.librenms.middlewares=librenms-https-redirect"
+      - "traefik.http.routers.librenms-secure.entrypoints=https"
+      - "traefik.http.routers.librenms-secure.rule=Host(`librenms.hbnet.co.za`)"
+      - "traefik.http.routers.librenms-secure.tls=true"
+      - "traefik.http.routers.librenms-secure.service=librenms"
+      - "traefik.http.services.librenms.loadbalancer.server.port=8000"
+      - "traefik.http.routers.librenms-secure.tls.certresolver=cloudflare"
+      - "traefik.docker.network=proxy"
 
   dispatcher:
     image: librenms/librenms:latest
