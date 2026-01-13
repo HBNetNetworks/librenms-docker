@@ -56,7 +56,7 @@ services:
     volumes:
       - "./librenms:/data"
     env_file:
-      - "./env/librenms.env"
+      - "./env/.env"
     environment:
       - "DB_NAME=${MYSQL_DATABASE}"
       - "DB_USER=${MYSQL_USER}"
